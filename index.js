@@ -5,6 +5,15 @@ const taskInput = document.querySelector('.task-input');
 
 //getting localStorage tasks
 let localTasks = JSON.parse(localStorage.getItem("tasks"))
+// let taskNumber = [];
+// for (let i = 0; i<localTasks.length; i++) {
+//   taskNumber.push(i);
+
+// }
+// let taskLength = taskNumber.length;
+// console.log(taskLength)
+
+
 // const tasks = [
 //   {
 //     description: 'Complete Capstone project',
@@ -42,8 +51,16 @@ function tasksDisplay() {
         <input type="checkbox" onclick="completionStatus(this)" ${isCompleted} id="${id}" class="check-input">
         <p class="task-name ${isCompleted}">${task.description}</p>
         </label>
-        <div ><i class="fa fa-ellipsis-v more-icon"></i></div>
+        <div class="more-container" >
+        <i class="fa fa-ellipsis-v more-icon" onclick="showDeleteEdit(this)"></i>
+        <ul class="delete-edit">
+          <li><i class="fa fa-trash" onclick="deleteTask(${id})"></i></li>
+          <li class="edit" onclick="editTask(${id}, '${task.description}')">Edit</li>
+        </ul>
+        
+        </div>
         </li>
+        
       `
 });
    }
@@ -61,6 +78,28 @@ function completionStatus(selectedTask) {
     localTasks[selectedTask.id].completed = false;
   }
   localStorage.setItem("tasks", JSON.stringify(localTasks));
+}
+
+function showDeleteEdit(selectedTask) {
+  //getting Delete edit ul
+  let deleteEditUl = selectedTask.parentElement.lastElementChild;
+  deleteEditUl.classList.add("show");
+  //Removing a class
+  document.addEventListener("click", e => {
+    if(e.target.tagName != "I" || e.target != selectedTask) {
+      deleteEditUl.classList.remove("show");
+    }
+  })
+}
+
+function deleteTask(deleteIndex) {
+  localTasks.splice(deleteIndex, 1);
+  localStorage.setItem("tasks", JSON.stringify(localTasks));
+  tasksDisplay()
+};
+
+function editTask(editIndex, editName) {
+  // taskInput.value = editName
 }
 
 taskInput.addEventListener('keyup', e=>{
