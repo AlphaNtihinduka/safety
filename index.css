@@ -8,6 +8,14 @@
     font-family: "poppins", sans-serif;
     background-color: rgb(238, 238, 238);
   }
+
+  a {
+    text-decoration: none;
+  }
+
+  li {
+    list-style: none;
+  }
   
   .do-list-parent {
     max-width: 400px;
@@ -15,7 +23,7 @@
     margin: 150px auto;
     background-color: #fff;
   }
-  
+
   .heading {
     display: flex;
     justify-content: space-between;
@@ -72,11 +80,39 @@
   .task-name {
     padding-left: 8px;
   }
+
+  .more-container {
+    position: relative;
+  }
   
   .more-icon {
     color: grey;
   }
+
+  .delete-edit {
+    font-size: 17px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 20px;
+  }
+
+  .more-container .delete-edit {
+    display: none;
+  }
+
+  .more-container .delete-edit.show {
+    display: block;
+  }
+
+  .fa-trash {
+    padding: 10px;
+  }
   
+  .edit {
+    padding: 10px;
+    background-color: orange;
+  }
   .clear-completed {
     font-size: 18px;
     color: grey;
