@@ -3,6 +3,9 @@
 const taskContainer = document.querySelector('.task-container');
 const taskInput = document.querySelector('.task-input');
 
+let editIndex;
+let isEditedTask = false;
+
 //getting localStorage tasks
 let localTasks = JSON.parse(localStorage.getItem("tasks"))
 // let taskNumber = [];
@@ -98,19 +101,26 @@ function deleteTask(deleteIndex) {
   tasksDisplay()
 };
 
-function editTask(editIndex, editName) {
-  // taskInput.value = editName
+function editTask(taskId, editName) {
+   editIndex = taskId; 
+   isEditedTask = true
+  taskInput.value = editName
 }
 
 taskInput.addEventListener('keyup', e=>{
   let EnteredTask = taskInput.value.trim();
   if(e.key ==="Enter" && EnteredTask) {
-    if(!localTasks) {
+    if(!isEditedTask) {
+      if(!localTasks) {
         localTasks = [];
     }
-    taskInput.value = "";
     let taskInfo = {description: EnteredTask, completed: false, index: 1};
     localTasks.push(taskInfo);
+    } else {
+      isEditedTask = false;
+      localTasks[editIndex].description = EnteredTask;
+    }
+    taskInput.value = "";
     localStorage.setItem("tasks", JSON.stringify(localTasks));
     tasksDisplay();
   }
