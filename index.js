@@ -2,7 +2,7 @@
 
 const taskContainer = document.querySelector('.task-container');
 const taskInput = document.querySelector('.task-input');
-
+const clearComplete = document.querySelector('.clear-completed');
 let editIndex;
 let isEditedTask = false;
 
@@ -106,6 +106,12 @@ function editTask(taskId, editName) {
    isEditedTask = true
   taskInput.value = editName
 }
+
+clearComplete.addEventListener("click", ()=>{
+    localTasks.splice(0, localTasks.length);
+    localStorage.setItem("tasks", JSON.stringify(localTasks));
+  tasksDisplay()
+})
 
 taskInput.addEventListener('keyup', e=>{
   let EnteredTask = taskInput.value.trim();
