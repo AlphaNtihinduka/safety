@@ -107,28 +107,39 @@ function editTask(taskId, editName) {
   taskInput.value = editName
 }
 
-clearComplete.addEventListener("click", ()=>{
-    localTasks.splice(0, localTasks.length);
-    localStorage.setItem("tasks", JSON.stringify(localTasks));
+function deleteTask(deleteIndex) {
+  const start = deleteIndex + 1;
+  for (let i = start; i<localTasks.length; i+=1) {
+    localTasks[i].index -= 1;
+  }
+  localTasks.splice(deleteIndex, 1);
+  localStorage.setItem("tasks", JSON.stringify(localTasks));
   tasksDisplay()
-})
+};
+
+function editTask(taskId, editName) {
+  editIndex = taskId; 
+  isEditedTask = true
+ taskInput.value = editName
+}
 
 taskInput.addEventListener('keyup', e=>{
-  let EnteredTask = taskInput.value.trim();
-  if(e.key ==="Enter" && EnteredTask) {
-    if(!isEditedTask) {
-      if(!localTasks) {
-        localTasks = [];
-    }
-    let taskInfo = {description: EnteredTask, completed: false, index: 1};
-    localTasks.push(taskInfo);
-    } else {
-      isEditedTask = false;
-      localTasks[editIndex].description = EnteredTask;
-    }
-    taskInput.value = "";
-    localStorage.setItem("tasks", JSON.stringify(localTasks));
-    tasksDisplay();
-  }
-})
-
+let EnteredTask = taskInput.value.trim();
+if(e.key ==="Enter" && EnteredTask) {
+  if(!isEditedTask) {
+    if(!localTasks) {
+      localTasks = [];
+  };
+  const arrayStore = JSON.parse(localStorage.getItem("tasks")) || [];
+  let arrayLength = arrayStore.length;
+  let taskInfo = {description: EnteredTask, completed: false, index: arrayLength + 1};
+  localTasks.push(taskInfo);
+  } else {
+    isEditedTask = false;
+    localTasks[editIndex].description = EnteredTask;
+  };
+  taskInput.value = "";
+  localStorage.setItem("tasks", JSON.stringify(localTasks));
+  tasksDisplay();
+};
+});
