@@ -101,11 +101,49 @@ function deleteTask(deleteIndex) {
   tasksDisplay()
 };
 
+
+
+
+
+
+
+
+
+
+function deleteCompletedTask(description){
+  const tasks = JSON.parse(localStorage.getItem("tasks"));
+  const index = tasks.findIndex((item => item.description === description));
+  deleteTask(index);
+}
+
 function editTask(taskId, editName) {
    editIndex = taskId; 
    isEditedTask = true
   taskInput.value = editName
 }
+
+clearComplete.addEventListener("click", ()=>{
+ const tasks = JSON.parse(localStorage.getItem("tasks"));
+tasks.filter((item) => item.completed === true).forEach((item) => deleteCompletedTask(item.description))
+  tasksDisplay()
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function deleteTask(deleteIndex) {
   const start = deleteIndex + 1;
